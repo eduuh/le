@@ -1,17 +1,3 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"--filter=blob:none",
-		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable",
-		lazypath,
-	})
-end
-
-vim.opt.rtp:prepend(lazypath)
-
 require("lazy").setup({
 	"folke/which-key.nvim",
 	{ "folke/neoconf.nvim", cmd = "Neoconf" },
@@ -64,5 +50,29 @@ require("lazy").setup({
 			"nvim-treesitter/nvim-treesitter-textobjects",
 		},
 		build = ":TSUpdate",
+	},
+
+	{
+		"mrcjkb/rustaceanvim",
+		version = "^4",
+		ft = { "rust" },
+	},
+
+	{
+		"hrsh7th/nvim-cmp",
+		event = "VeryLazy",
+		dependencies = {
+			"sar/cmp-lsp.nvim",
+			"L3MON4D3/LuaSnip",
+			"saadparwaiz1/cmp_luasnip",
+		},
+		config = function()
+			require("editor/completion")
+		end,
+	},
+
+	{
+		"williamboman/mason-lspconfig.nvim",
+		dependencies = { "neovim/nvim-lspconfig" },
 	},
 })
