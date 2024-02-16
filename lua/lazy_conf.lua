@@ -1,12 +1,46 @@
 require("lazy").setup({
-	"folke/which-key.nvim",
+	{
+		"windwp/nvim-autopairs",
+		dependencies = "windwp/nvim-ts-autotag",
+		config = function()
+			require("nvim-autopairs").setup({
+				disable_filetype = { "TelescopePrompt", "vim" },
+			})
+			require("nvim-treesitter.configs").setup({
+				autotag = {
+					enable = true,
+				},
+			})
+		end,
+	},
+	{
+		"lewis6991/gitsigns.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("editor.git_signs")
+		end,
+	},
+	{
+		"nvim-tree/nvim-web-devicons",
+		event = "VeryLazy",
+		config = function()
+			require("editor/devicons")
+		end,
+	},
 	{ "folke/neoconf.nvim", cmd = "Neoconf" },
 	"folke/neodev.nvim",
 	{
 		"williamboman/mason.nvim",
-		dependencies = { "WhoIsSethDaniel/mason-tool-installer.nvim" },
+		dependencies = {
+			"williamboman/mason-lspconfig.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			"neovim/nvim-lspconfig",
+			"onsails/lspkind.nvim",
+		},
 		config = function()
 			require("tools/mason_config")
+			require("tools/lsp_config")
+			require("tools/lsp_kind")
 		end,
 	},
 
@@ -50,6 +84,9 @@ require("lazy").setup({
 			"nvim-treesitter/nvim-treesitter-textobjects",
 		},
 		build = ":TSUpdate",
+		config = function()
+			require("editor/treesitter_conf")
+		end,
 	},
 
 	{
@@ -67,12 +104,7 @@ require("lazy").setup({
 			"saadparwaiz1/cmp_luasnip",
 		},
 		config = function()
-			require("editor/completion")
+			require("tools/completion")
 		end,
-	},
-
-	{
-		"williamboman/mason-lspconfig.nvim",
-		dependencies = { "neovim/nvim-lspconfig" },
 	},
 })
