@@ -3,6 +3,7 @@ require("lazy").setup({
 		"windwp/nvim-autopairs",
 		dependencies = "windwp/nvim-ts-autotag",
 		config = function()
+			require("tools.program_installed")
 			require("nvim-autopairs").setup({
 				disable_filetype = { "TelescopePrompt", "vim" },
 			})
@@ -11,6 +12,13 @@ require("lazy").setup({
 					enable = true,
 				},
 			})
+		end,
+	},
+	{
+		"nvim-tree/nvim-tree.lua",
+		lazy = false,
+		config = function()
+			vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { silent = true })
 		end,
 	},
 	{
@@ -105,6 +113,79 @@ require("lazy").setup({
 		},
 		config = function()
 			require("tools/completion")
+		end,
+	},
+
+	-- install without yarn or npm
+	{
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		ft = { "markdown" },
+		build = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+	},
+
+	-- install with yarn or npm
+	{
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		build = "cd app && yarn install",
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
+		ft = { "markdown" },
+	},
+	{
+		"numToStr/Comment.nvim",
+		opts = {
+			-- add any options here
+		},
+		lazy = false,
+		config = function()
+			require("Comment").setup()
+		end,
+	},
+	{
+		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {},
+		config = function()
+			vim.keymap.set("n", "<leader>xx", function()
+				require("trouble").toggle()
+			end)
+			vim.keymap.set("n", "<leader>xw", function()
+				require("trouble").toggle("workspace_diagnostics")
+			end)
+			vim.keymap.set("n", "<leader>xd", function()
+				require("trouble").toggle("document_diagnostics")
+			end)
+			vim.keymap.set("n", "<leader>xq", function()
+				require("trouble").toggle("quickfix")
+			end)
+			vim.keymap.set("n", "gR", function()
+				require("trouble").toggle("lsp_references")
+			end)
+		end,
+	},
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = {},
+		config = function()
+			vim.keymap.set("n", "]t", function()
+				require("todo-comments").jump_next()
+			end, { desc = "Next todo comment" })
+
+			vim.keymap.set("n", "[t", function()
+				require("todo-comments").jump_prev()
+			end, { desc = "Previous todo comment" })
+
+			-- You can also specify a list of valid jump keywords
+
+			vim.keymap.set("n", "]t", function()
+				require("todo-comments").jump_next({ keywords = { "ERROR", "WARNING" } })
+			end, { desc = "Next error/warning todo comment" })
 		end,
 	},
 })
