@@ -1,5 +1,34 @@
 require("lazy").setup({
 	{
+		"xeluxee/competitest.nvim",
+		ft = { "cpp", "c", "cs", "ts", "js" },
+		dependencies = "MunifTanjim/nui.nvim",
+		config = function()
+			require("competitest").setup({
+				testcases_use_single_file = true,
+				compile_command = {
+					c = { exec = "gcc", args = { "-Wall", "$(FNAME)", "-o", "$(FNOEXT)" .. ".out" } },
+					cpp = { exec = "clang++", args = { "-std=c++2a", "$(FNAME)", "-o", "$(FNOEXT)" .. ".out" } },
+					rust = { exec = "rustc", args = { "$(FNAME)" } },
+					-- Todo add c# + js + ts
+				},
+				compile_directory = ".",
+				running_directory = ".",
+				run_command = {
+					c = { exec = "./$(FNOEXT)" .. ".out" },
+					cpp = { exec = "./$(FNOEXT)" .. ".out" },
+					rust = { exec = "./$(FNOEXT)" },
+				},
+				runner_ui = {
+					interface = "popup",
+				},
+			})
+
+			vim.keymap.set("n", "<leader>rc", "<cmd>CompetiTest run<cr>", { silent = true })
+			vim.keymap.set("n", "<leader>at", "<cmd>CompetiTest add_testcase<cr>", { silent = true })
+		end,
+	},
+	{
 		"windwp/nvim-autopairs",
 		dependencies = "windwp/nvim-ts-autotag",
 		config = function()
@@ -18,7 +47,8 @@ require("lazy").setup({
 		"nvim-tree/nvim-tree.lua",
 		lazy = false,
 		config = function()
-			vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { silent = true })
+			require("nvim-tree").setup()
+			vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFindFileToggle<cr>", { silent = true })
 		end,
 	},
 	{
@@ -173,6 +203,8 @@ require("lazy").setup({
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = {},
 		config = function()
+			require("todo-comments").setup()
+
 			vim.keymap.set("n", "]t", function()
 				require("todo-comments").jump_next()
 			end, { desc = "Next todo comment" })
