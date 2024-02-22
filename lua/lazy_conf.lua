@@ -44,7 +44,7 @@ require("lazy").setup({
 				toggle_telescope(harpoon:list())
 			end, { desc = "Open harpoon window" })
 
-			vim.keymap.set({ "n", "v" }, "<leader>a", function()
+			vim.keymap.set({ "n", "v" }, "<leader>am", function()
 				harpoon:list():append()
 			end)
 
@@ -100,7 +100,10 @@ require("lazy").setup({
 				testcases_use_single_file = true,
 				compile_command = {
 					c = { exec = "gcc", args = { "-Wall", "$(FNAME)", "-o", "$(FNOEXT)" .. ".out" } },
-					cpp = { exec = "clang++", args = { "-std=c++2a", "$(FNAME)", "-o", "$(FNOEXT)" .. ".out" } },
+					cpp = {
+						exec = "clang++",
+						args = { "-std=c++2a", "$(FNAME)", "-o", "$(FNOEXT)" .. ".out", "--debug" },
+					},
 					rust = { exec = "rustc", args = { "$(FNAME)" } },
 					-- Todo add c# + js + ts
 				},
@@ -327,6 +330,62 @@ require("lazy").setup({
 			vim.keymap.set("n", "]t", function()
 				require("todo-comments").jump_next({ keywords = { "ERROR", "WARNING" } })
 			end, { desc = "Next error/warning todo comment" })
+		end,
+	},
+	{
+		"rcarriga/nvim-dap-ui",
+		dependencies = "mfussenegger/nvim-dap",
+		config = function()
+			local dap = require("dap")
+			local dapui = require("dapui")
+			dapui.setup()
+			dap.listeners.after.event_initialized["dapui_config"] = function()
+				dapui.open()
+			end
+			dap.listeners.before.event_terminated["dapui_config"] = function()
+				dapui.close()
+			end
+			dap.listeners.before.event_exited["dapui_config"] = function()
+				dapui.close()
+			end
+			-- configure debug symbols
+			vim.fn.sign_define("DapBreakpoint", { text = "🟥", texthl = "", linehl = "", numhl = "" })
+			vim.fn.sign_define("DapStopped", { text = "▶️", texthl = "", linehl = "", numhl = "" })
+		end,
+	},
+	{
+		"mfussenegger/nvim-dap",
+		ft = { "c", "js", "c++", "cpp", "ts", "cs", "rs" },
+		event = "VeryLazy",
+		config = function()
+			require("tools.dapconfigs")
+
+			vim.keymap.set({ "n", "v" }, "<leader>ab", function()
+				require("dap").toggle_breakpoint()
+			end)
+			vim.keymap.set({ "n", "v" }, "<leader>rd", function()
+				require("dap").continue()
+			end)
+			vim.keymap.set({ "n", "v" }, "<leader>si", function()
+				require("dap").step_into()
+			end)
+			vim.keymap.set({ "n", "v" }, "<leader>so", function()
+				require("dap").step_over()
+			end)
+			vim.keymap.set({ "n", "v" }, "<leader>or", function()
+				require("dap").repl.open()
+			end)
+			vim.keymap.set({ "n", "v" }, "<leader>cb", function()
+				require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+			end)
+		end,
+	},
+	{
+		"theHamsta/nvim-dap-virtual-text",
+		config = function()
+			require("nvim-dap-virtual-text").setup({
+				commented = true,
+			})
 		end,
 	},
 })
