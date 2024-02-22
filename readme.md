@@ -10,20 +10,17 @@
      + formats embedded code blocks: Inside markdown files
 
 
+3. [Rest-Nvim]
+4. [harpoon2]
+4. [Treesitter]
+
+
+## C++ Debugging
+
+1. Use Installed clang++ compiler using Mason: Todo: add to mason list
+2. Codelldb: Installed by mason as well
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-## what?
-
-1. what is extmarks and folds?
