@@ -1,4 +1,96 @@
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable",
+		lazypath,
+	})
+end
+
+vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
+	{
+		"ThePrimeagen/harpoon",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		branch = "harpoon2",
+		event = "VeryLazy",
+		config = function()
+			local harpoon = require("harpoon")
+			harpoon.setup({})
+
+			local conf = require("telescope.config").values
+			local function toggle_telescope(harpoon_files)
+				local file_paths = {}
+				for _, item in ipairs(harpoon_files.items) do
+					table.insert(file_paths, item.value)
+				end
+
+				require("telescope.pickers")
+					.new({}, {
+						prompt_title = "Harpoon",
+						finder = require("telescope.finders").new_table({
+							results = file_paths,
+						}),
+						previewer = conf.file_previewer({}),
+						sorter = conf.generic_sorter({}),
+					})
+					:find()
+			end
+
+			vim.keymap.set({ "n", "v" }, "<leader>mm", function()
+				toggle_telescope(harpoon:list())
+			end, { desc = "Open harpoon window" })
+
+			vim.keymap.set({ "n", "v" }, "<leader>a", function()
+				harpoon:list():append()
+			end)
+
+			vim.keymap.set({ "n", "v" }, "<leader>fm", function()
+				harpoon:list():next()
+			end)
+
+			vim.keymap.set({ "n", "v" }, "<leader>pm", function()
+				harpoon:list():next()
+			end)
+		end,
+	},
+	{
+		"mfussenegger/nvim-lint",
+		event = { "BufReadPre", "BufNewFile" },
+		config = function()
+			local lint = require("lint")
+
+			lint.linters_by_ft = {
+				javascript = { "eslint_d" },
+				typescript = { "eslint_d" },
+				javascriptreact = { "eslint_d" },
+				typescriptreact = { "eslint_d" },
+			}
+
+			local lint_autogroup = vim.api.nvim_create_augroup("lint", { clear = true })
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufwritePost", "InsertLeave" }, {
+				group = lint_autogroup,
+				callback = function()
+					lint.try_lint()
+				end,
+			})
+
+			vim.keymap.set("n", "<leader>fl", function()
+				lint.try_lint()
+			end, { desc = "Trigger linting for current file" })
+		end,
+	},
+	{
+		"rest-nvim/rest.nvim",
+		ft = "http",
+		requires = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("tools.api_dev")
+		end,
+	},
 	{
 		"xeluxee/competitest.nvim",
 		ft = { "cpp", "c", "cs", "ts", "js" },
@@ -47,8 +139,25 @@ require("lazy").setup({
 		"nvim-tree/nvim-tree.lua",
 		lazy = false,
 		config = function()
-			require("nvim-tree").setup()
-			vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFindFileToggle<cr>", { silent = true })
+			vim.g.loaded_netrw = 1
+			vim.g.loaded_netrwPlugin = 1
+
+			require("nvim-tree").setup({
+				sort = {
+					sorter = "case_sensitive",
+				},
+				view = {
+					width = 30,
+				},
+				renderer = {
+					group_empty = true,
+				},
+				filters = {
+					dotfiles = true,
+				},
+			})
+
+			vim.keymap.set({ "n", "v" }, "<leader>e", "<cmd>NvimTreeFindFileToggle<cr>", { silent = true })
 		end,
 	},
 	{
