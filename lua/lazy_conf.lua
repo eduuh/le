@@ -1,4 +1,6 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local map = vim.keymap.set
+
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -12,6 +14,26 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
+	{
+		"kdheepak/lazygit.nvim",
+		-- optional for floating window border decoration
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		config = function()
+			require("telescope").load_extension("lazygit")
+			map("n", "<leader>gg", "<cmd>LazyGit<cr>")
+		end,
+	},
+	{
+		"rmagatti/auto-session",
+		config = function()
+			require("auto-session").setup({
+				log_level = "error",
+				auto_session_suppress_dirs = { "~/", "~/Projects", "/" },
+			})
+		end,
+	},
 	{
 		"ThePrimeagen/harpoon",
 		dependencies = { "nvim-lua/plenary.nvim" },

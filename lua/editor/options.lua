@@ -44,3 +44,8 @@ vim.o.tabstop = 2
 vim.o.shiftwidth = 2
 
 vim.opt.swapfile = false
+vim.opt.fillchars = { eob = " " }
+
+vim.o.shortmess = vim.o.shortmess .. "I"
+
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
