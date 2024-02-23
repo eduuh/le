@@ -13,7 +13,6 @@
 3. [n, v] <leader>pm (previous mark)
 4. [n, v] <leader>fm (forward mark)
 
-
 ### Rest
 
 1. [n, v] <leader> rr (Run request)

@@ -16,7 +16,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{
 		"kdheepak/lazygit.nvim",
-		-- optional for floating window border decoration
+		event = "VeryLazy",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
@@ -27,6 +27,7 @@ require("lazy").setup({
 	},
 	{
 		"rmagatti/auto-session",
+		lazy = false,
 		config = function()
 			require("auto-session").setup({
 				log_level = "error",
@@ -107,6 +108,7 @@ require("lazy").setup({
 	},
 	{
 		"rest-nvim/rest.nvim",
+		event = "VeryLazy",
 		ft = "http",
 		requires = { "nvim-lua/plenary.nvim" },
 		config = function()
@@ -115,7 +117,8 @@ require("lazy").setup({
 	},
 	{
 		"xeluxee/competitest.nvim",
-		ft = { "cpp", "c", "cs", "ts", "js" },
+		event = "VeryLazy",
+		ft = { "cpp", "c", "cs", "typescript", "javascript" },
 		dependencies = "MunifTanjim/nui.nvim",
 		config = function()
 			require("competitest").setup({
@@ -135,6 +138,8 @@ require("lazy").setup({
 					c = { exec = "./$(FNOEXT)" .. ".out" },
 					cpp = { exec = "./$(FNOEXT)" .. ".out" },
 					rust = { exec = "./$(FNOEXT)" },
+					javascript = { exec = "node", "$(FNAME)" .. ".js" },
+					typescript = { exec = "bun", "$(FNAME)" .. ".ts" },
 				},
 				runner_ui = {
 					interface = "popup",
@@ -147,6 +152,7 @@ require("lazy").setup({
 	},
 	{
 		"windwp/nvim-autopairs",
+		event = "VeryLazy",
 		dependencies = "windwp/nvim-ts-autotag",
 		config = function()
 			require("tools.program_installed")
@@ -162,7 +168,7 @@ require("lazy").setup({
 	},
 	{
 		"nvim-tree/nvim-tree.lua",
-		lazy = false,
+		event = "VeryLazy",
 		config = function()
 			vim.g.loaded_netrw = 1
 			vim.g.loaded_netrwPlugin = 1
@@ -199,10 +205,12 @@ require("lazy").setup({
 			require("editor/devicons")
 		end,
 	},
-	{ "folke/neoconf.nvim", cmd = "Neoconf" },
-	"folke/neodev.nvim",
+	{ "folke/neoconf.nvim", cmd = "Neoconf", event = "VeryLazy" },
+
+	{ "folke/neodev.nvim", event = "VeryLazy" },
 	{
 		"williamboman/mason.nvim",
+		event = "VeryLazy",
 		dependencies = {
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -222,6 +230,7 @@ require("lazy").setup({
 	},
 	{
 		"rose-pine/neovim",
+		event = "VeryLazy",
 		name = "rose-pine",
 		config = function()
 			require("editor/theme")
@@ -238,6 +247,7 @@ require("lazy").setup({
 
 	{
 		"nvim-telescope/telescope.nvim",
+		event = "VeryLazy",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			{
@@ -252,6 +262,7 @@ require("lazy").setup({
 
 	{
 		"nvim-treesitter/nvim-treesitter",
+		event = "VeryLazy",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter-textobjects",
 		},
@@ -263,6 +274,7 @@ require("lazy").setup({
 
 	{
 		"mrcjkb/rustaceanvim",
+		event = "VeryLazy",
 		version = "^4",
 		ft = { "rust" },
 	},
@@ -283,6 +295,7 @@ require("lazy").setup({
 	-- install without yarn or npm
 	{
 		"iamcco/markdown-preview.nvim",
+		event = "VeryLazy",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
 		ft = { "markdown" },
 		build = function()
