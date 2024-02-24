@@ -117,7 +117,6 @@ require("lazy").setup({
 	},
 	{
 		"rest-nvim/rest.nvim",
-		event = "VeryLazy",
 		ft = "http",
 		requires = { "nvim-lua/plenary.nvim" },
 		config = function()
@@ -126,7 +125,6 @@ require("lazy").setup({
 	},
 	{
 		"xeluxee/competitest.nvim",
-		event = "VeryLazy",
 		ft = { "cpp", "c", "cs", "typescript", "javascript" },
 		dependencies = "MunifTanjim/nui.nvim",
 		config = function()
@@ -288,7 +286,6 @@ require("lazy").setup({
 
 	{
 		"mrcjkb/rustaceanvim",
-		event = "VeryLazy",
 		version = "^4",
 		ft = { "rust" },
 	},
