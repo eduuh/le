@@ -15,6 +15,15 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		init = function()
+			vim.o.timeout = true
+			vim.o.timeoutlen = 300
+		end,
+		opts = {},
+	},
+	{
 		"kdheepak/lazygit.nvim",
 		event = "VeryLazy",
 		dependencies = {
@@ -230,7 +239,7 @@ require("lazy").setup({
 	},
 	{
 		"rose-pine/neovim",
-		event = "VeryLazy",
+		lazy = false,
 		name = "rose-pine",
 		config = function()
 			require("editor/theme")
@@ -244,7 +253,12 @@ require("lazy").setup({
 			require("formatting")
 		end,
 	},
-
+	{
+		"Pocco81/auto-save.nvim",
+		config = function()
+			require("auto-save").setup({})
+		end,
+	},
 	{
 		"nvim-telescope/telescope.nvim",
 		event = "VeryLazy",
