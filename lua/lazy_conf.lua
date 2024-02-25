@@ -17,8 +17,7 @@ require("lazy").setup({
 	{
 		"epwalsh/obsidian.nvim",
 		version = "*",
-		lazy = true,
-		ft = "markdown",
+		lazy = "VeryLazy",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
