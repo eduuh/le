@@ -17,11 +17,12 @@ require("lazy").setup({
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
-		init = function()
+		config = function()
 			vim.o.timeout = true
-			vim.o.timeoutlen = 300
+			vim.o.timeoutlen = 500
+
+			require("which-key").setup()
 		end,
-		opts = {},
 	},
 	{
 		"kdheepak/lazygit.nvim",
@@ -31,7 +32,7 @@ require("lazy").setup({
 		},
 		config = function()
 			require("telescope").load_extension("lazygit")
-			map("n", "<leader>gg", "<cmd>LazyGit<cr>")
+			map("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "Open LazyGit" })
 		end,
 	},
 	{
@@ -78,15 +79,15 @@ require("lazy").setup({
 
 			vim.keymap.set({ "n", "v" }, "<leader>am", function()
 				harpoon:list():append()
-			end)
+			end, { desc = "Append a mark" })
 
 			vim.keymap.set({ "n", "v" }, "<leader>fm", function()
 				harpoon:list():next()
-			end)
+			end, { desc = "go to forward mark" })
 
 			vim.keymap.set({ "n", "v" }, "<leader>pm", function()
-				harpoon:list():next()
-			end)
+				harpoon:list():prev()
+			end, { desc = "go to prev mark" })
 		end,
 	},
 	{
@@ -153,8 +154,8 @@ require("lazy").setup({
 				},
 			})
 
-			vim.keymap.set("n", "<leader>rc", "<cmd>CompetiTest run<cr>", { silent = true })
-			vim.keymap.set("n", "<leader>at", "<cmd>CompetiTest add_testcase<cr>", { silent = true })
+			map("n", "<leader>rc", "<cmd>CompetiTest run<cr>", { silent = true, desc = "Run competi test" })
+			map("n", "<leader>at", "<cmd>CompetiTest add_testcase<cr>", { silent = true, desc = "Add Test Case" })
 		end,
 	},
 	{
@@ -195,7 +196,12 @@ require("lazy").setup({
 				},
 			})
 
-			vim.keymap.set({ "n", "v" }, "<leader>e", "<cmd>NvimTreeFindFileToggle<cr>", { silent = true })
+			vim.keymap.set(
+				{ "n", "v" },
+				"<leader>e",
+				"<cmd>NvimTreeFindFileToggle<cr>",
+				{ silent = true, desc = "Toggle File Explorer" }
+			)
 		end,
 	},
 	{
@@ -340,20 +346,11 @@ require("lazy").setup({
 		opts = {},
 		config = function()
 			vim.keymap.set("n", "<leader>xx", function()
-				require("trouble").toggle()
-			end)
-			vim.keymap.set("n", "<leader>xw", function()
 				require("trouble").toggle("workspace_diagnostics")
-			end)
+			end, { desc = "Show workspace issues" })
 			vim.keymap.set("n", "<leader>xd", function()
 				require("trouble").toggle("document_diagnostics")
-			end)
-			vim.keymap.set("n", "<leader>xq", function()
-				require("trouble").toggle("quickfix")
-			end)
-			vim.keymap.set("n", "gR", function()
-				require("trouble").toggle("lsp_references")
-			end)
+			end, { desc = "Show Document issue" })
 		end,
 	},
 	{
@@ -408,22 +405,22 @@ require("lazy").setup({
 
 			vim.keymap.set({ "n", "v" }, "<leader>ab", function()
 				require("dap").toggle_breakpoint()
-			end)
+			end, { desc = "Toggle Breakpoint" })
 			vim.keymap.set({ "n", "v" }, "<leader>rd", function()
 				require("dap").continue()
-			end)
+			end, { desc = "Start Debugging" })
 			vim.keymap.set({ "n", "v" }, "<leader>si", function()
 				require("dap").step_into()
-			end)
+			end, { desc = "Step Into" })
 			vim.keymap.set({ "n", "v" }, "<leader>so", function()
 				require("dap").step_over()
-			end)
+			end, { desc = "Step Over" })
 			vim.keymap.set({ "n", "v" }, "<leader>or", function()
 				require("dap").repl.open()
-			end)
+			end, { desc = "Open repl" })
 			vim.keymap.set({ "n", "v" }, "<leader>cb", function()
 				require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
-			end)
+			end, { desc = "Conditional Breakpoint" })
 		end,
 	},
 	{

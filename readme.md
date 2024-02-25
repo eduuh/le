@@ -24,6 +24,9 @@
 1. Todo [Learn to Use Lazygit](https://www.youtube.com/watch?v=6mxWayq-s9I&ab_channel=JoseanMartinez)
 
 
+## Todo
+
+1. Build a seach engine from scrach
 
 
 

@@ -1,3 +1,5 @@
+local map = vim.keymap.set
+
 require("rest-nvim").setup({
 	result_split_horizontal = false,
 	result_split_in_place = true,
@@ -25,13 +27,14 @@ require("rest-nvim").setup({
 	yank_dry_run = true,
 })
 
-vim.keymap.set({ "n", "v" }, "<leader>rr", function()
+map({ "n", "v" }, "<leader>rr", function()
 	require("rest-nvim").run()
-end)
-vim.keymap.set({ "n", "v" }, "<leader>lr", function()
+end, { desc = "Run Rest Request" })
+
+map({ "n", "v" }, "<leader>lr", function()
 	require("rest-nvim").last()
-end)
+end, { desc = "Run last request" })
 
 vim.keymap.set({ "n", "v" }, "<leader>sp", function()
 	require("rest-nvim").preview()
-end)
+end, { desc = "Run toggle preview" })
