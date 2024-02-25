@@ -48,4 +48,7 @@ vim.opt.fillchars = { eob = " " }
 
 vim.o.shortmess = vim.o.shortmess .. "I"
 
+vim.o.conceallevel = 2
+vim.api.nvim_set_hl(0, "HelpBar", { link = "Normal" })
+vim.api.nvim_set_hl(0, "HelpStar", { link = "Normal" })
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
