@@ -15,6 +15,18 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{
+		"epwalsh/obsidian.nvim",
+		version = "*",
+		lazy = true,
+		ft = "markdown",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		config = function()
+			require("plugins.obsidian")
+		end,
+	},
+	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		config = function()
