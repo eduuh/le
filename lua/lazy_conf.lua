@@ -17,7 +17,8 @@ require("lazy").setup({
 	{
 		"epwalsh/obsidian.nvim",
 		version = "*",
-		lazy = "VeryLazy",
+		lazy = true,
+		ft = "markdown",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
@@ -181,6 +182,12 @@ require("lazy").setup({
 			require("nvim-treesitter.configs").setup({
 				autotag = {
 					enable = true,
+				},
+				filters = {
+					dotfiles = true,
+					git_clean = false,
+					no_buffer = false,
+					custom = { "node_modules", "*.out*/" },
 				},
 			})
 		end,
