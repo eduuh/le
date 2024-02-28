@@ -2,6 +2,7 @@ local servers = {
 	clangd = {},
 	-- pyright = {},
 	rust_analyzer = {},
+	omnisharp = {},
 	tsserver = {},
 	html = { filetypes = { "html", "twig", "hbs" } },
 
@@ -30,7 +31,6 @@ mason_lspconfig.setup_handlers({
 	function(server_name)
 		require("lspconfig")[server_name].setup({
 			capabilities = capabilities,
-			on_attach = on_attach,
 			settings = servers[server_name],
 			filetypes = (servers[server_name] or {}).filetypes,
 		})

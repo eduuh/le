@@ -15,6 +15,14 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{
+		"nvim-telescope/telescope-file-browser.nvim",
+		event = "VeryLazy",
+		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+		config = function()
+			require("telescope").load_extension("file_browser")
+		end,
+	},
+	{
 		"epwalsh/obsidian.nvim",
 		version = "*",
 		lazy = true,
@@ -165,61 +173,6 @@ require("lazy").setup({
 					interface = "popup",
 				},
 			})
-
-			map("n", "<leader>rc", "<cmd>CompetiTest run<cr>", { silent = true, desc = "Run competi test" })
-			map("n", "<leader>at", "<cmd>CompetiTest add_testcase<cr>", { silent = true, desc = "Add Test Case" })
-		end,
-	},
-	{
-		"windwp/nvim-autopairs",
-		event = "VeryLazy",
-		dependencies = "windwp/nvim-ts-autotag",
-		config = function()
-			require("tools.program_installed")
-			require("nvim-autopairs").setup({
-				disable_filetype = { "TelescopePrompt", "vim" },
-			})
-			require("nvim-treesitter.configs").setup({
-				autotag = {
-					enable = true,
-				},
-				filters = {
-					dotfiles = true,
-					git_clean = false,
-					no_buffer = false,
-					custom = { "node_modules", "*.out*/" },
-				},
-			})
-		end,
-	},
-	{
-		"nvim-tree/nvim-tree.lua",
-		event = "VeryLazy",
-		config = function()
-			vim.g.loaded_netrw = 1
-			vim.g.loaded_netrwPlugin = 1
-
-			require("nvim-tree").setup({
-				sort = {
-					sorter = "case_sensitive",
-				},
-				view = {
-					width = 30,
-				},
-				renderer = {
-					group_empty = true,
-				},
-				filters = {
-					dotfiles = true,
-				},
-			})
-
-			vim.keymap.set(
-				{ "n", "v" },
-				"<leader>e",
-				"<cmd>NvimTreeFindFileToggle<cr>",
-				{ silent = true, desc = "Toggle File Explorer" }
-			)
 		end,
 	},
 	{
@@ -229,15 +182,7 @@ require("lazy").setup({
 			require("editor.git_signs")
 		end,
 	},
-	{
-		"nvim-tree/nvim-web-devicons",
-		event = "VeryLazy",
-		config = function()
-			require("editor/devicons")
-		end,
-	},
 	{ "folke/neoconf.nvim", cmd = "Neoconf", event = "VeryLazy" },
-
 	{ "folke/neodev.nvim", event = "VeryLazy" },
 	{
 		"williamboman/mason.nvim",
@@ -273,12 +218,6 @@ require("lazy").setup({
 		dependencies = { "clangd_extensions.nvim", "mason.nvim" },
 		config = function()
 			require("formatting")
-		end,
-	},
-	{
-		"Pocco81/auto-save.nvim",
-		config = function()
-			require("auto-save").setup({})
 		end,
 	},
 	{

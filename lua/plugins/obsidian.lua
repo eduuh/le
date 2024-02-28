@@ -13,6 +13,7 @@ require("obsidian").setup({
 			name = "work",
 			path = "~/projects/work_notes",
 		},
+		{ name = "nvim", path = "~/.config/nvim/docs" },
 	},
 	completion = {
 		nvim_cmp = true,
