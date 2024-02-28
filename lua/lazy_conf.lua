@@ -146,7 +146,7 @@ require("lazy").setup({
 	},
 	{
 		"xeluxee/competitest.nvim",
-		ft = { "cpp", "c", "cs", "typescript", "javascript" },
+		ft = { "cpp", "c", "cs", "typescript", "javascript", "rs", "rust" },
 		dependencies = "MunifTanjim/nui.nvim",
 		config = function()
 			require("competitest").setup({
