@@ -5,6 +5,7 @@ map("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
 map("n", "<leader>fw", builtin.live_grep, { desc = "Find Word" })
 map("n", "<leader>fb", builtin.buffers, { desc = "Find buffers" })
 map("n", "<leader>fh", builtin.help_tags, { desc = "Find HelpTags" })
+map("n", "<leader>fn", "<cmd>ObsidianSearch<cr>", { desc = "Find Notes" })
 
 -- map("n", "<space>fe", ":Telescope file_browser<CR>", { noremap = true, desc = "File Explorer" })
 

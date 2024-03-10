@@ -15,6 +15,49 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{
+		"windwp/nvim-ts-autotag",
+		event = "VeryLazy",
+		ft = {
+			"html",
+			"javascript",
+			"typescript",
+			"javascriptreact",
+			"typescriptreact",
+			"svelte",
+			"vue",
+			"tsx",
+			"jsx",
+		},
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				autotag = {
+					enable = true,
+					enable_rename = true,
+					enable_close = true,
+					enable_close_on_slash = true,
+					filetypes = {
+						"html",
+						"javascript",
+						"typescript",
+						"javascriptreact",
+						"typescriptreact",
+						"svelte",
+						"vue",
+						"tsx",
+						"jsx",
+					},
+				},
+			})
+		end,
+	},
+	{
+		"windwp/nvim-autopairs",
+		event = "VeryLazy",
+		config = function()
+			require("nvim-autopairs").setup({})
+		end,
+	},
+	{
 		"nvim-telescope/telescope-file-browser.nvim",
 		event = "VeryLazy",
 		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
@@ -25,8 +68,7 @@ require("lazy").setup({
 	{
 		"epwalsh/obsidian.nvim",
 		version = "*",
-		lazy = true,
-		ft = "markdown",
+		event = "VeryLazy",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
@@ -57,7 +99,7 @@ require("lazy").setup({
 	},
 	{
 		"rmagatti/auto-session",
-		lazy = false,
+		event = "VeryLazy",
 		config = function()
 			require("auto-session").setup({
 				log_level = "error",
@@ -71,43 +113,7 @@ require("lazy").setup({
 		branch = "harpoon2",
 		event = "VeryLazy",
 		config = function()
-			local harpoon = require("harpoon")
-			harpoon.setup({})
-
-			local conf = require("telescope.config").values
-			local function toggle_telescope(harpoon_files)
-				local file_paths = {}
-				for _, item in ipairs(harpoon_files.items) do
-					table.insert(file_paths, item.value)
-				end
-
-				require("telescope.pickers")
-					.new({}, {
-						prompt_title = "Harpoon",
-						finder = require("telescope.finders").new_table({
-							results = file_paths,
-						}),
-						previewer = conf.file_previewer({}),
-						sorter = conf.generic_sorter({}),
-					})
-					:find()
-			end
-
-			vim.keymap.set({ "n", "v" }, "<leader>mm", function()
-				toggle_telescope(harpoon:list())
-			end, { desc = "Open harpoon window" })
-
-			vim.keymap.set({ "n", "v" }, "<leader>am", function()
-				harpoon:list():append()
-			end, { desc = "Append a mark" })
-
-			vim.keymap.set({ "n", "v" }, "<leader>fm", function()
-				harpoon:list():next()
-			end, { desc = "go to forward mark" })
-
-			vim.keymap.set({ "n", "v" }, "<leader>pm", function()
-				harpoon:list():prev()
-			end, { desc = "go to prev mark" })
+			require("plugins.harpoon")
 		end,
 	},
 	{
@@ -266,9 +272,6 @@ require("lazy").setup({
 	},
 	{
 		"numToStr/Comment.nvim",
-		opts = {
-			-- add any options here
-		},
 		lazy = false,
 		config = function()
 			require("Comment").setup()

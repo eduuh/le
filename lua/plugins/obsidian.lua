@@ -1,4 +1,3 @@
-print("Test stufff")
 require("obsidian").setup({
 	workspaces = {
 		-- {
